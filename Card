@@ -1,0 +1,31 @@
+package blackjack;
+
+public class Card {
+	int suit;
+	int value;
+	String[] suitNames = {"clubs", "diamonds", "spades", "hearts"};
+	String[] valueNames = {"ace", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "jack", "queen", "king"};
+	
+	public Card(int newSuit, int newValue) {
+		suit = newSuit;
+		value = newValue;
+	}
+	
+	//returns the name of the card in the form "(value) of (suit)"
+	public String getName() {
+		return valueNames[value] + " of " + suitNames[suit];
+	}
+	
+	//returns the number value of the card according to blackjack rules
+	public int getValue() {
+		if (value > 9)
+			return 10;
+		else if (value > 0) {
+			return value + 1;
+		}
+		else {
+			//returns 1 or 11 depending on situation
+			return 1;
+		}
+	}
+}
