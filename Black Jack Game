@@ -1,0 +1,116 @@
+package blackjack;
+import java.util.*;
+public class BlackJack {
+
+	Hand playerHand;
+	Hand dealerHand;
+	Deck myDeck;
+	String winner = "";
+	int compWins = 0, userWins = 0;
+	
+	public BlackJack() {
+		
+	}
+	
+	public void play() {
+		playerHand = new Hand(2);
+		dealerHand = new Hand(2);
+		myDeck = new Deck();
+		
+		System.out.println("Your hand is: " + playerHand.getHand());
+		System.out.println("One of the dealer's cards: " + dealerHand.dealersFirst() + "\n");
+		if (playerHand.busted()) {
+			System.out.println("You busted!");
+			winner = "dealer";
+			getWinner();
+		}
+		else if (playerHand.getTotalWithAce() == 21) {
+			System.out.println("BLACK JACK!!!");
+			winner = "player";
+			getWinner();
+		}
+		else {			
+			hitOrStay();
+		}
+		if (winner.equals("player")) {
+			userWins++;
+		}
+		else if (winner.equals("dealer"))
+			compWins++;
+		System.out.println("\nDealer has won " + compWins + " times\nYou have won " + userWins + " times");
+		play_again();
+	}
+	
+	//asks if you want to hit or stay
+	public void hitOrStay() {
+		Scanner scan = new Scanner(System.in);
+		String answer = "";
+		while (!answer.equalsIgnoreCase("s") && !playerHand.busted() && playerHand.getTotal() != 21) {
+			System.out.println("Do you want to hit (H) or stay (S)?");
+			answer = scan.nextLine();
+			if (answer.equalsIgnoreCase("h")) {
+				playerHand.hit();
+				System.out.println("Your hand is: " + playerHand.getHand());
+				if (playerHand.busted()) {
+					System.out.println("You busted!");
+					winner = "dealer";
+					getWinner();
+				}
+				else if (playerHand.getTotalWithAce() == 21) {
+					System.out.println("BLACK JACK!!!");
+					winner = "player";
+					getWinner();
+				}
+			}
+			else if (answer.equalsIgnoreCase("s")) {
+				dealerHand.dealerPick();
+				System.out.println("The dealer's hand is: " + dealerHand.getHand());
+				if (dealerHand.busted()) {
+					System.out.println("The dealer busted!");
+					winner = "player";
+				}
+				getWinner();
+			}
+			else {
+				System.out.println("You must answer 'h' or 's'");
+			}
+		}
+	}	
+	
+	//determines winner
+	public void getWinner() {
+		if (winner == "player") {
+			System.out.println("You win!!!");
+		}
+		else if (winner == "dealer") {
+			System.out.println("Dealer wins :(");
+		}
+		else {
+			if (playerHand.getTotalWithAce() > dealerHand.getTotalWithAce()) {
+				System.out.println("You win!!!");
+			}
+			else if (playerHand.getTotalWithAce() == dealerHand.getTotalWithAce()) {
+				System.out.println("Tie!");
+			}
+			else {
+				System.out.println("Dealer wins :(");
+			}
+		}
+	}
+	
+	public void play_again() {
+		Scanner scan = new Scanner(System.in);
+		String again = "";
+		while (!again.equalsIgnoreCase("y") && !again.equalsIgnoreCase("n")) {
+			System.out.println("Do you want to play again? (Y/N)");
+			again = scan.nextLine();
+			if (again.equalsIgnoreCase("y"))
+				play();
+			else if (again.equalsIgnoreCase("n"))
+				System.out.println("Ok, bye!");
+			else {
+				System.out.println("You must answer 'y' or 'n'");
+			}
+		}	
+	}
+}
