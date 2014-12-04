@@ -1,0 +1,73 @@
+package blackjack;
+import java.util.*;
+public class Hand {
+
+	List <Card> handList = new ArrayList(10);
+	Deck myDeck = new Deck();
+	
+	public Hand(int numCards) {
+		for (int i = numCards; i > 0; i--) {			
+			handList.add(myDeck.pickCard());
+		}
+	}
+	
+	//adds card to hand
+	public void hit(){
+		handList.add(myDeck.pickCard());
+	}
+	
+	//dealer picks cards until reaches 17
+	public void dealerPick() {
+		while (getTotal() < 17) {
+			hit();
+		}
+	}
+	
+	//add values of the cards in your hand and returns the total
+	public int getTotal() {
+		int total = 0;
+		for (int index = 0; index < handList.size(); index++) {
+			total += handList.get(index).getValue();
+		}
+		return total;
+	}
+	
+	public int getTotalWithAce() {
+		if (hasAce() && getTotal() < 12)
+			return getTotal() + 10;
+		else
+			return getTotal();
+	}
+	
+	//gets the value of the first card in the hand (to show the player one of the dealer's cards)
+	public String dealersFirst() {
+		return handList.get(0).getName();
+	}
+	
+	//returns the names of the cards in your hand
+	public String getHand() {
+		String cards = "\n";
+		for (int index = 0; index < handList.size(); index++) {
+			cards += handList.get(index).getName() + "\n";
+		}
+		cards += "Total: " + getTotalWithAce() + "\n";
+		return cards;
+	}
+	
+	//determines if hand has an ace
+	public boolean hasAce() {
+		for (int i = 0; i < handList.size(); i++) {
+			if (handList.get(i).value == 0)
+				return true;
+		}
+		return false;
+	}
+	
+	//determines whether your hand is a bust or not
+	public boolean busted() {
+		if (getTotal() > 21)
+			return true;
+		else
+			return false;
+	}
+}
