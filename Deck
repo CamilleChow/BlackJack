@@ -1,0 +1,26 @@
+package blackjack;
+import java.util.*;
+
+public class Deck {
+	int deckLength = 52;
+	List<Card> deckList = new ArrayList(deckLength);
+	public Deck() {
+		
+		for (int i = 0; i <4; i++) {
+			for (int j = 0; j < 13; j++) {
+				//create a new card with suit i and value j, adds it to the array at index (i*13+j)
+				Card newCard = new Card(i,j);
+				deckList.add(i*13+j, newCard);
+			}
+		}
+	}
+	//Picks a random card from the deck and removes it from the list of cards in the deck
+	public Card pickCard() {
+		Random rand = new Random();
+		int index = rand.nextInt(deckLength);
+		Card newCard = deckList.get(index);
+		deckList.remove(index);
+		deckLength--;
+		return newCard;
+	}
+}
