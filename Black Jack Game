@@ -88,12 +88,14 @@ public class BlackJack {
 		else {
 			if (playerHand.getTotalWithAce() > dealerHand.getTotalWithAce()) {
 				System.out.println("You win!!!");
+				winner = "player";
 			}
 			else if (playerHand.getTotalWithAce() == dealerHand.getTotalWithAce()) {
 				System.out.println("Tie!");
 			}
 			else {
 				System.out.println("Dealer wins :(");
+				winner = "dealer";
 			}
 		}
 	}
