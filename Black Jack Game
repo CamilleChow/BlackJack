@@ -45,7 +45,7 @@ public class BlackJack {
 	public void hitOrStay() {
 		Scanner scan = new Scanner(System.in);
 		String answer = "";
-		while (!answer.equalsIgnoreCase("s") && !playerHand.busted() && playerHand.getTotal() != 21) {
+		while (!answer.equalsIgnoreCase("s") && !playerHand.busted() && playerHand.getTotalWithAce() != 21) {
 			System.out.println("Do you want to hit (H) or stay (S)?");
 			answer = scan.nextLine();
 			if (answer.equalsIgnoreCase("h")) {
